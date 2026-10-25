@@ -1,0 +1,23 @@
+//
+//  Config.xcconfig
+//  BIOGLOW
+//
+//  Created by Jining Liu on 4/20/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+// Signing and identity live here only, so no team or bundle identifier is pushed
+// to a remote repository. Copy this file to the ignored Config.xcconfig and fill
+// it in: the app target reads both through $(inherited), and the test target
+// appends ".tests" to the identifier.
+
+// Your 10-character Apple Developer Team ID, from
+// https://developer.apple.com/account (Membership details). Leave it blank to
+// build without signing.
+DEVELOPMENT_TEAM=
+
+// Reverse-DNS identifier of a domain you own, registered as an App ID for the
+// team above before uploading to App Store Connect.
+PRODUCT_BUNDLE_IDENTIFIER=com.example.bioglow.scorer

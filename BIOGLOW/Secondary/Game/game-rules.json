@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "revision": 1,
+  "source": "Robot Game Rulebook",
+  "published": "2026-09-13",
+  "matchSeconds": 150,
+  "tokenPoints": [0, 10, 15, 25, 35, 50, 50],
+  "counts": {
+    "m02Seeds": 3,
+    "m06Fragments": 4,
+    "m14Seeds": 3
+  },
+  "points": {
+    "inspection": 20,
+    "m01DroneOffMat": 20,
+    "m01LidarMapFlipped": 10,
+    "m02Seed": 10,
+    "m03FlagDown": 20,
+    "m03RockReturned": 10,
+    "m04OneLeaf": 10,
+    "m04SecondLeaf": 20,
+    "m05Partial": 10,
+    "m05Complete": 20,
+    "m06Fragment": 10,
+    "m07MyceliumExtended": 20,
+    "m07Connected": 10,
+    "m08Vine": 30,
+    "m09PlatformRaised": 10,
+    "m09CameraDeployed": 10,
+    "m09SeedOffTree": 10,
+    "m10Spider": 10,
+    "m10Snail": 10,
+    "m11RootCover": 20,
+    "m12CaneRaised": 20,
+    "m12SupportTie": 10,
+    "m13Keystone": 30,
+    "m14SeedInStation": 5,
+    "m14SeedTouchingMat": 5,
+    "m15Canopy": 10,
+    "m15Skylight": 10,
+    "m15Hatch": 10,
+    "m15DockBonus": 10
+  },
+  "notes": [
+    "M02, M06 and M14 element counts are read from the rulebook pictures. Confirm them against the official scoring calculator."
+  ]
+}
