@@ -118,7 +118,7 @@ struct ContentView: View {
                 .maxArea(alignment: .leading)
                 .themedSurface(16)
 
-            Link(destination: URL(string: "https://www.instagram.com/arstanber")!) {
+            Link(destination: URL(string: "https://www.instagram.com/kita.ftc")!) {
                 Image("Instagram")
                     .resizable()
                     .scaledToFit()
