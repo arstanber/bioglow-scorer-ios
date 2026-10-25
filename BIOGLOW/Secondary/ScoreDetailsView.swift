@@ -217,7 +217,7 @@ extension BioGlowScores {
         }
 
         lines.append("GP \(gp.rawValue) (\(gp.title))")
-        lines.append("Scored with the BIOGLOW Scorer by Qazaqly")
+        lines.append("Scored with the BIOGLOW Scorer by kita 39112")
         return lines.joined(separator: "\n")
     }
 }

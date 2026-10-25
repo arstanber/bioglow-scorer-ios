@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**BIOGLOW™ Scorer**, presented by Qazaqly. Last updated October 25th, 2026.
+**BIOGLOW™ Scorer**, made by kita 39112. Last updated October 25th, 2026.
 
 The app is a robot game scorer. It has no accounts, no sign-in, no ads and no
 third-party trackers, and it never asks for your name, email address, photos,

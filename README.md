@@ -69,4 +69,4 @@ xcodebuild test -project BIOGLOW.xcodeproj -scheme BIOGLOW -destination 'platfor
 
 *FIRST*® LEGO® League and BIOGLOW™ are jointly held trademarks of *FIRST*® and the LEGO Group. This is an independent project, not affiliated with, sponsored or endorsed by either. No rulebook images are used.
 
-Presented by Qazaqly and contributors under the MIT License.
+Made by kita 39112 and contributors under the MIT License.

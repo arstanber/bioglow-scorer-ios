@@ -122,7 +122,7 @@ struct SettingsView: View {
                 } header: {
                     VStack(alignment: .leading) {
                         Text("BIOGLOW™ Scorer")
-                        Text("presented by **Qazaqly**")
+                        Text("made by **kita 39112**")
                             .font(.subheadline)
                     }
                 } footer: {
@@ -134,7 +134,7 @@ struct SettingsView: View {
 
                         This is an independent project. It is not affiliated with, sponsored or endorsed by *FIRST* or the LEGO Group. Always follow the official Robot Game Rulebook and Challenge Updates.
 
-                        © 2026 Qazaqly and Contributors. MIT License.
+                        © 2026 kita 39112 and Contributors. MIT License.
                         """
                     )
                 }
