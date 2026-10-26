@@ -42,6 +42,16 @@ struct SettingsView: View {
                         isOn: $soundsEnabled
                     )
 
+                    HStack {
+                        SettingsLabel(
+                            title: "Start Delay",
+                            description: "Count down before the timer starts, to step back from the robot",
+                            icon: "timer"
+                        )
+                        Spacer()
+                        StartDelayPicker()
+                    }
+
                     VStack(alignment: .leading, spacing: 16) {
                         SettingsLabel(
                             title: "Preserve Team Number",

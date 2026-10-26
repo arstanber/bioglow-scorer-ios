@@ -10,6 +10,7 @@ struct TimerView: View {
     @Environment(\.dismiss) var dismiss
 
     @StateObject private var timer = RobotGameTimer()
+    @StateObject private var startDelay = StartDelay()
 
     var body: some View {
         let phase = timer.phase
@@ -18,6 +19,7 @@ struct TimerView: View {
         VStack {
             HStack {
                 Button {
+                    startDelay.cancel()
                     timer.reset()
                     dismiss()
                 } label: {
@@ -35,9 +37,10 @@ struct TimerView: View {
             Spacer()
 
             Text(
-                phase == .countdown
-                    ? "\(timer.countdownLeft)"
-                    : RobotGameClockState.format(timer.secondsLeft)
+                startDelay.remaining.map { "\($0)" }
+                    ?? (phase == .countdown
+                        ? "\(timer.countdownLeft)"
+                        : RobotGameClockState.format(timer.secondsLeft))
             )
             .scoreDigits(512, weight: .semibold, glow: finalSeconds ? .firefly : nil)
             .minimumScaleFactor(0.2)
@@ -45,9 +48,10 @@ struct TimerView: View {
             .contentTransition(.numericText())
             .animation(.smooth, value: timer.secondsLeft)
             .animation(.smooth, value: timer.countdownLeft)
+            .animation(.smooth, value: startDelay.remaining)
             .foregroundStyle(finalSeconds ? Color.firefly : .primary)
 
-            Text(timer.phaseTitle)
+            Text(startDelay.remaining != nil ? "Starting in…" : timer.phaseTitle)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundStyle(finalSeconds ? Color.firefly : .secondary)
@@ -58,9 +62,24 @@ struct TimerView: View {
 
             HStack(spacing: 16) {
                 switch phase {
+                case .idle where startDelay.remaining != nil:
+                    Button {
+                        Haptics.play(.light)
+                        withAnimation(.smooth) { startDelay.cancel() }
+                    } label: {
+                        Label("Cancel", systemImage: "xmark")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.primary)
                 case .idle:
                     Button {
-                        withAnimation(.smooth) { timer.start() }
+                        startDelay.run {
+                            withAnimation(.smooth) { timer.start() }
+                        }
                     } label: {
                         Label("Start Match", systemImage: "play.fill")
                             .font(.title3)

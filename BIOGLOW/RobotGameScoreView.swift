@@ -17,6 +17,7 @@ struct RobotGameScoreView: View {
     @Environment(\.dismiss) private var dismiss
 
     @StateObject private var timer = RobotGameTimer()
+    @StateObject private var startDelay = StartDelay()
     @State private var scores: BioGlowScores = .init()
     @State private var timestamp: Date = .now
 
@@ -145,7 +146,7 @@ struct RobotGameScoreView: View {
             HStack(spacing: 12) {
                 controls
                 if showsTimer {
-                    MatchTimerBar(timer: timer)
+                    MatchTimerBar(timer: timer, startDelay: startDelay)
                 }
                 Spacer(minLength: 0)
                 totalTile
@@ -157,7 +158,7 @@ struct RobotGameScoreView: View {
                     Spacer(minLength: 0)
                     totalTile
                 }
-                MatchTimerBar(timer: timer)
+                MatchTimerBar(timer: timer, startDelay: startDelay)
             }
         }
     }
@@ -498,6 +499,7 @@ struct RobotGameScoreView: View {
     private func reset() {
         Analytics.shared.trackCompletion(scores, from: showsTimer ? .game : .calc)
 
+        startDelay.cancel()
         timer.reset()
         let hasOpposingTeam = scores.hasOpposingTeam
         var blank = BioGlowScores()
@@ -524,6 +526,7 @@ struct RobotGameScoreView: View {
 
 struct MatchTimerBar: View {
     @ObservedObject var timer: RobotGameTimer
+    @ObservedObject var startDelay: StartDelay
 
     var body: some View {
         let phase = timer.phase
@@ -532,16 +535,17 @@ struct MatchTimerBar: View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: -2) {
                 Text(
-                    phase == .countdown
-                        ? "\(timer.countdownLeft)"
-                        : RobotGameClockState.format(timer.secondsLeft)
+                    startDelay.remaining.map { "\($0)" }
+                        ?? (phase == .countdown
+                            ? "\(timer.countdownLeft)"
+                            : RobotGameClockState.format(timer.secondsLeft))
                 )
                 .scoreDigits(30, weight: .semibold, glow: finalSeconds ? .firefly : nil)
                 .foregroundStyle(finalSeconds ? Color.firefly : .primary)
                 .contentTransition(.numericText())
                 .animation(.smooth, value: timer.secondsLeft)
 
-                Text(timer.phaseTitle)
+                Text(startDelay.remaining != nil ? "Starting in…" : timer.phaseTitle)
                     .font(.caption2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
@@ -551,9 +555,19 @@ struct MatchTimerBar: View {
             Spacer(minLength: 0)
 
             switch phase {
+            case .idle where startDelay.remaining != nil:
+                Button {
+                    Haptics.play(.light)
+                    startDelay.cancel()
+                } label: {
+                    Label("Cancel", systemImage: "xmark")
+                        .fontWeight(.semibold)
+                }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
             case .idle:
                 Button {
-                    timer.start()
+                    startDelay.run { timer.start() }
                 } label: {
                     Label("Start", systemImage: "play.fill")
                         .fontWeight(.semibold)
