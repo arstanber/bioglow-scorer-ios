@@ -16,6 +16,7 @@ struct HistoryView: View {
     @State private var search: String = ""
     @State private var editingTeamFor: RobotGameMatchModel? = nil
     @State private var editedTeam: String = ""
+    @State private var sharingCardFor: RobotGameMatchModel? = nil
 
     private var filteredMatches: [RobotGameMatchModel] {
         guard !search.isEmpty else { return matches }
@@ -90,6 +91,15 @@ struct HistoryView: View {
                     }
                 }
             }
+        }
+        .sheet(item: $sharingCardFor) { match in
+            MatchCardShareView(
+                scores: match.scores,
+                teamNumber: match.teamNumber,
+                round: match.round,
+                timestamp: match.timestamp
+            )
+            .appThemeRoot()
         }
         .alert(
             "Team Number",
@@ -180,6 +190,12 @@ struct HistoryView: View {
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Share Image", systemImage: "photo") {
+                    sharingCardFor = match
+                }
+            }
+
             ToolbarItem(placement: .topBarTrailing) {
                 ShareLink(
                     item: scores.summary(

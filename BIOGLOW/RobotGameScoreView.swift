@@ -27,6 +27,7 @@ struct RobotGameScoreView: View {
 
     @State private var showLog: Bool = false
     @State private var showDetails: Bool = false
+    @State private var showCard: Bool = false
     @State private var showSettings: Bool = false
     @State private var showSave: Bool = false
     @State private var confirmExit: Bool = false
@@ -395,6 +396,13 @@ struct RobotGameScoreView: View {
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
+                    Button("Share Image", systemImage: "photo") {
+                        showCard = true
+                    }
+                    .disabled(scores.isBlank)
+                }
+
+                ToolbarItem(placement: .topBarTrailing) {
                     ShareLink(
                         item: scores.summary(
                             teamNumber: RobotGameMatchModel.normalized(teamNumber),
@@ -403,6 +411,15 @@ struct RobotGameScoreView: View {
                         )
                     )
                 }
+            }
+            .sheet(isPresented: $showCard) {
+                MatchCardShareView(
+                    scores: scores,
+                    teamNumber: RobotGameMatchModel.normalized(teamNumber),
+                    round: nil,
+                    timestamp: timestamp
+                )
+                .appThemeRoot()
             }
         }
     }
